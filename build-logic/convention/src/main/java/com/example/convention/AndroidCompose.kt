@@ -9,17 +9,12 @@ internal fun Project.configureCompose(commonExtension: CommonExtension){
         buildFeatures.apply {
             compose = true
         }
-        composeOptions.apply {
-            kotlinCompilerExtensionVersion = libs
-                .findVersion("composeCompiler")
-                .get()
-                .toString()
-        }
         dependencies {
             val bom = libs.findLibrary("androidx.compose.bom").get()
             "implementation"(platform(bom))
             "androidTestImplementation"(platform(bom))
-            "debugImplementation"(libs.findLibrary("androidx.compose.ui.tooling.preview").get())
+            "implementation"(libs.findLibrary("androidx.compose.ui.tooling.preview").get())
+            "debugImplementation"(libs.findLibrary("androidx.compose.ui.tooling").get())
              }
     }
 }
