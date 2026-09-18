@@ -1,5 +1,6 @@
 [versions]
-agp = "8.13.2"
+agp = "9.4.0"
+androidTools = "32.4.0"
 kotlin = "2.4.20"
 ksp = "2.3.12"
 coreKtx = "1.19.0"
@@ -37,7 +38,7 @@ projectApplicationId = "com.example.runapp"
 projectVersionName = "1.0"
 projectMinSdkVersion = "24"
 projectTargetSdkVersion = "36"
-projectCompileSdkVersion = "36"
+projectCompileSdkVersion = "37"
 projectVersionCode = "1"
 
 [libraries]
@@ -102,14 +103,24 @@ google-maps-android-compose = { module = "com.google.maps.android:maps-compose",
 google-maps-android-utils-ktx = { module = "com.google.maps.android:maps-utils-ktx", version.ref = "mapsUtils" }
 org-mongodb-bson = { module = "org.mongodb:bson", version.ref = "bson" }
 
+# Gradle
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+android-tools-common = { group = "com.android.tools", name = "common", version.ref = "androidTools" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 room = { id = "androidx.room", version.ref = "room" }
 mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secretsPlugin" }
+
+
+runapp-android-application = { id = "runapp.android.application", version = "unspecified" }
+runapp-android-application-compose = { id = "runapp.android.application.compose", version = "unspecified" }

@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="11">
+      <module name="Run_App.app" target="21" />
+      <module name="Run_App.auth.data" target="21" />
+      <module name="Run_App.auth.presentation" target="21" />
+      <module name="Run_App.core.data" target="21" />
+      <module name="Run_App.core.database" target="21" />
+      <module name="Run_App.core.presentation.designsystem" target="21" />
+      <module name="Run_App.core.presentation.ui" target="21" />
+      <module name="Run_App.run.data" target="21" />
+      <module name="Run_App.run.location" target="21" />
+      <module name="Run_App.run.network" target="21" />
+      <module name="Run_App.run.presentation" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>
