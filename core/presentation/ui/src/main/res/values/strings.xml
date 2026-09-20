@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_request_timeout">Error Request Timeout</string>
+    <string name="error_too_many_requests">Too many requests\n</string>
+    <string name="error_no_internet">No internet</string>
+    <string name="error_payload_too_large">Too large payload</string>
+    <string name="error_server_error">Server error</string>
+    <string name="error_serialization_error">Parsing issue</string>
+    <string name="error_unknown_error">Something went wrong</string>
+    <string name="error_database_error">Database issue</string>
+    <string name="error_disk_full">Disk full</string>
+</resources>

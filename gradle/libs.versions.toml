@@ -40,6 +40,7 @@ projectMinSdkVersion = "24"
 projectTargetSdkVersion = "36"
 projectCompileSdkVersion = "37"
 projectVersionCode = "1"
+ui = "1.12.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -109,6 +110,7 @@ android-tools-common = { group = "com.android.tools", name = "common", version.r
 kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
 room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
+androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -127,6 +129,9 @@ runapp-android-application-compose = { id = "runapp.android.application.compose"
 runapp-android-library = { id = "runapp.android.library", version = "unspecified" }
 runapp-android-library-compose = { id = "runapp.android.library.compose", version = "unspecified" }
 runapp-android-library-feature-ui = { id = "runapp.android.library.feature.ui", version = "unspecified" }
+runapp-android-room = { id = "runapp.android.room", version = "unspecified" }
+runapp-jvm-library = { id = "runapp.jvm.library", version = "unspecified" }
+runapp-jvm-ktor = { id = "runapp.jvm.ktor", version = "unspecified" }
 
 [bundles]
 compose = ["androidx-compose-ui",
@@ -142,3 +147,11 @@ compose = ["androidx-compose-ui",
 compose-debug = ["androidx-compose-ui-tooling", "androidx-compose-ui-test-manifest"]
 koin = ["koin-core", "koin-android", "koin-androidx-compose", "koin-android-workmanager"]
 koin-compose = ["koin-core", "koin-android", "koin-androidx-compose", "koin-android-workmanager"]
+ktor = [
+    "ktor-client-auth",
+    "ktor-client-cio",
+    "ktor-client-content-negotiation",
+    "ktor-client-core",
+    "ktor-client-logging",
+    "ktor-serialization-kotlinx-json",
+    "ktor-server-call-logging"]

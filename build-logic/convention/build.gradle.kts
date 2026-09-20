@@ -38,6 +38,17 @@ gradlePlugin {
             id = "runapp.android.library.feature.ui"
             implementationClass = "AndroidLibraryFeatureUiConventionPlugin"
         }
-
+        register("androidRoom"){
+            id = "runapp.android.room"
+            implementationClass = "AndroidRoomConventionPlugin"
+        }
+        register("jvmLibrary"){
+            id = "runapp.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
+        register("jvmKtor") {
+            id = "runapp.jvm.ktor"
+            implementationClass = "JvmKtorConventionPlugin"
+        }
     }
 }
