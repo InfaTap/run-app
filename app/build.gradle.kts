@@ -52,8 +52,9 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    implementation(libs.bundles.koin)
+
     // Crypto
-    implementation(libs.androidx.security.crypto.ktx)
 
     // Play Feature Delivery (replaces deprecated play:core)
     api(libs.play.feature.delivery)

@@ -11,8 +11,7 @@ import io.ktor.client.request.parameter
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.client.statement.HttpResponse
-import io.ktor.http.parameters
-import io.ktor.server.util.url
+import io.ktor.client.request.url
 import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.CancellationException
 import kotlinx.serialization.SerializationException
@@ -23,11 +22,9 @@ suspend inline fun <reified Response: Any> HttpClient.delete(
 ): Result<Response, DataError.Network> {
     return safeCall {
         delete {
-            url {
-                constructRoute(route)
-                queryParameters.forEach { (key, value) ->
-                    parameter(key, value)
-                }
+            url(constructRoute(route))
+            queryParameters.forEach { (key, value) ->
+                parameter(key, value)
             }
         }
     }
@@ -40,10 +37,8 @@ suspend inline fun <reified Request, reified Response: Any> HttpClient.post(
 
     return safeCall {
         post {
-            url {
-                constructRoute(route)
-                setBody(body)
-            }
+            url(constructRoute(route))
+            setBody(body)
         }
     }
 
@@ -55,11 +50,9 @@ suspend inline fun <reified Response: Any> HttpClient.get(
 
    return safeCall {
         get {
-            url {
-                constructRoute(route)
-                queryParameters.forEach { (key, value) ->
-                    parameter(key, value)
-                }
+            url(constructRoute(route))
+            queryParameters.forEach { (key, value) ->
+                parameter(key, value)
             }
         }
     }

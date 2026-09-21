@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Run App\n</string>
-    <string name="welcome_to_runapp">Welcome to run App\n</string>
-    <string name="intro_description">Track your run, set goals and achive fitness milestone with our intutive app.\n</string>
+    <string name="app_name">Run App</string>
+    <string name="welcome_to_runapp">Welcome to run App</string>
+    <string name="intro_description">Track your run, set goals and achive fitness milestone with our intutive app.</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
+    <string name="create_account">Create account</string>
+    <string name="already_have_an_account">Already have account?</string>
+    <string name="login">Login</string>
+    <string name="example_email">example@email.com</string>
+    <string name="email">Email</string>
+    <string name="invalid_email">Must be a valid email</string>
+    <string name="password">Password</string>
+    <string name="password_requirement_length">At least %d charcheters</string>
+    <string name="at_least_one_number">At least 1 number</string>
+    <string name="contains_lower_case">Should contain lower case</string>
+    <string name="contains_upper_case">Should contain uppercase</string>
+    <string name="register">Register</string>
+    <string name="error_email_already_exists">Email already exists</string>
 </resources>

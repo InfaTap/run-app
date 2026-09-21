@@ -21,7 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.core.presentation.designsystem.RunBlack
+import com.example.core.presentation.designsystem.RunDarkGray
+import com.example.core.presentation.designsystem.RunGray
 
 @Composable
 fun RunActionButton(modifier: Modifier = Modifier,
@@ -36,8 +37,8 @@ fun RunActionButton(modifier: Modifier = Modifier,
         colors = ButtonDefaults.buttonColors(
             containerColor = MaterialTheme.colorScheme.primary,
             contentColor = MaterialTheme.colorScheme.onPrimary,
-            disabledContainerColor = RunBlack,
-            disabledContentColor = RunBlack
+            disabledContainerColor = RunDarkGray,
+            disabledContentColor = RunGray
         ),
         shape = RoundedCornerShape(100f),
         modifier = modifier.height(IntrinsicSize.Min)
@@ -50,7 +51,6 @@ fun RunActionButton(modifier: Modifier = Modifier,
             color = MaterialTheme.colorScheme.onPrimary
         )
             Text(text = text,
-                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier.alpha(if (isLoading) 0f else 1f),
                 fontWeight = FontWeight.Medium
             ) }
@@ -69,7 +69,7 @@ fun RunActionOutlinedButton(modifier: Modifier = Modifier,
         onClick = onClick,
         enabled = enabled,
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.primary
+            contentColor = MaterialTheme.colorScheme.secondary
         ),
         border = BorderStroke(width = 0.5.dp, color = MaterialTheme.colorScheme.onBackground),
         shape = RoundedCornerShape(100f),
@@ -81,7 +81,6 @@ fun RunActionOutlinedButton(modifier: Modifier = Modifier,
                 color = MaterialTheme.colorScheme.primary
             )
             Text(text = text,
-                color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier.alpha(if (loading) 0f else 1f),
                 fontWeight = FontWeight.Medium
             )
