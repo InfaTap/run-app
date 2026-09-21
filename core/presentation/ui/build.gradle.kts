@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.runapp.android.library)
+    alias(libs.plugins.runapp.android.library.compose)
 }
 
 android {
