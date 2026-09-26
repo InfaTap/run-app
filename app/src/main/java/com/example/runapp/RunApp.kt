@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.auth.presentation.di.authViewModelModule
 import com.example.core.data.di.coreDataModule
 import com.example.data.di.authDataModule
+import com.example.run.presentation.di.runViewModelModule
 import com.example.runapp.di.appModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,7 +25,8 @@ class RunApp: Application() {
                 appModule,
                 authDataModule,
                 authViewModelModule,
-                coreDataModule
+                coreDataModule,
+                runViewModelModule
             )
         }
     }
