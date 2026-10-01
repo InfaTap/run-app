@@ -24,6 +24,7 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RunOverViewScreenRoot(
+    onRunClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 ) {
     /*These two lines do the same thing:
@@ -31,7 +32,14 @@ fun RunOverViewScreenRoot(
     RunOverViewScreen(onAction = viewModel::onAction)
     RunOverViewScreen(onAction = { action -> viewModel.onAction(action) })*/
 
-    RunOverViewScreen(onAction = viewModel::onAction)
+    RunOverViewScreen(onAction = { action ->
+        when (action) {
+
+            RunOverviewAction.OnRunClick -> onRunClick()
+            else -> {}
+        }
+        viewModel.onAction(action)
+    })
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,10 +61,15 @@ private fun RunOverViewScreen(
                 titleString = "Run App",
                 modifier = Modifier.fillMaxWidth(),
                 scrollBehavior = scrollBehavior,
-                onMenuItemClick = {index->
-                    when(index){
-                        0 -> {onAction(RunOverviewAction.OnAnalyticsClick)}
-                        1 -> {onAction(RunOverviewAction.OnRunLogoutClick)}
+                onMenuItemClick = { index ->
+                    when (index) {
+                        0 -> {
+                            onAction(RunOverviewAction.OnAnalyticsClick)
+                        }
+
+                        1 -> {
+                            onAction(RunOverviewAction.OnRunLogoutClick)
+                        }
                     }
                 },
                 menuItems = listOf(
@@ -81,7 +94,9 @@ private fun RunOverViewScreen(
         },
         floatingAction = {
             RunFloatingActionButton(
-                onClick = {},
+                onClick = {
+                    onAction(RunOverviewAction.OnRunClick)
+                },
                 icon = RunIcon,
             )
         }

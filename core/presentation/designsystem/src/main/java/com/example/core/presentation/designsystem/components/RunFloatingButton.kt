@@ -32,7 +32,7 @@ fun RunFloatingActionButton(
     onClick: () -> Unit,
     icon: ImageVector,
     contentDescription: String? = null,
-    size: Dp = 24.dp
+    iconSize: Dp = 24.dp
 ) {
 
     val outerScale by rememberInfiniteTransition(label = "pulse").animateFloat(
@@ -65,7 +65,7 @@ fun RunFloatingActionButton(
                 imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onPrimary,
-                modifier = Modifier.size(size)
+                modifier = Modifier.size(iconSize)
             )
         }
     }

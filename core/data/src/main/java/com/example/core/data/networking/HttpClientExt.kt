@@ -70,7 +70,7 @@ suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Result<T, 
     }
     catch (e: Exception) {
         if (e is CancellationException) throw e
-        return Result.Error(DataError.Network.NO_INTERNET)
+        return Result.Error(DataError.Network.UNKNOWN_ERROR)
     }
     return responseToResult(response)
 }
