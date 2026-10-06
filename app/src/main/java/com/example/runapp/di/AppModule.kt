@@ -6,6 +6,9 @@ import com.example.auth.domain.PatternValidator
 import com.example.auth.domain.UserDataValidator
 import com.example.data.EmailValidator
 import com.example.runapp.MainViewModel
+import com.example.runapp.RunApp
+import kotlinx.coroutines.CoroutineScope
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
@@ -17,4 +20,7 @@ val appModule = module {
         androidContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
     }
     viewModelOf(::MainViewModel)
+    single<CoroutineScope> {
+        (androidApplication() as RunApp).applicationScope
+    }
 }
