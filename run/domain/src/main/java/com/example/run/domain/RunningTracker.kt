@@ -119,7 +119,7 @@ class RunningTracker(
 
     private fun <T> List<List<T>>.replaceLast(replacement: List<T>) : List<List<T>>{
         return if (this.isEmpty()){
-            listOf()
+            listOf(replacement)
         } else {
             this.dropLast(1) + listOf(replacement)
         }
