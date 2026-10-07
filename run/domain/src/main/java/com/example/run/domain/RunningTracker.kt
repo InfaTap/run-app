@@ -28,7 +28,8 @@ class RunningTracker(
     private val locationObserver: LocationObserver,
     private val applicationScope: CoroutineScope
 ) {
-    private val isTracking = MutableStateFlow(false)
+    private val _isTracking = MutableStateFlow(false)
+    val isTracking = _isTracking.asStateFlow()
     private val isObserving = MutableStateFlow(false)
 
     private val _runData = MutableStateFlow(RunData())

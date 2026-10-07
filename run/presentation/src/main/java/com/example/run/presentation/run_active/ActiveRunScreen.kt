@@ -32,6 +32,7 @@ import com.example.core.presentation.designsystem.components.RunScaffold
 import com.example.core.presentation.designsystem.components.RunToolbar
 import com.example.run.presentation.maps.TrackerMap
 import com.example.run.presentation.run_active.component.RunDataCard
+import com.example.run.presentation.run_active.service.ActiveRunService
 import com.example.run.presentation.util.hasLocationPermission
 import com.example.run.presentation.util.hasPostNotification
 import com.example.run.presentation.util.shouldShowLocationPermissionRational
@@ -40,10 +41,12 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun ActiveRunScreenRoot(
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     viewModel: ActiveRunViewModel = koinViewModel()
 ) {
     ActiveRunScreen(
         state = viewModel.state,
+        onServiceToggle = onServiceToggle,
         onAction = viewModel::onAction
     )
 }
@@ -52,6 +55,7 @@ fun ActiveRunScreenRoot(
 @Composable
 private fun ActiveRunScreen(
     state: ActiveRunState,
+    onServiceToggle: (isServiceRunning: Boolean) -> Unit,
     onAction: (ActiveRunAction) -> Unit
 ) {
     val context = LocalContext.current
@@ -105,6 +109,14 @@ private fun ActiveRunScreen(
 
         if (!showNotificationRational && !showLocationRational) {
             permissionLauncher.requestRunAppPermission(context)
+        }
+    }
+    LaunchedEffect(state.isRunFinished) {
+        onServiceToggle(false)
+    }
+    LaunchedEffect(state.shouldTrack) {
+        if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
+            onServiceToggle(true)
         }
     }
 
@@ -251,7 +263,8 @@ private fun ActiveRunScreenPreview() {
     RunTheme {
         ActiveRunScreen(
             state = ActiveRunState(),
-            onAction = {}
+            onAction = {},
+            onServiceToggle = {}
         )
     }
 }
