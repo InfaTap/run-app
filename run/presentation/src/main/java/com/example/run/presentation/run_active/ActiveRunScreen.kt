@@ -29,6 +29,7 @@ import com.example.core.presentation.designsystem.components.RunAppDialog
 import com.example.core.presentation.designsystem.components.RunFloatingActionButton
 import com.example.core.presentation.designsystem.components.RunScaffold
 import com.example.core.presentation.designsystem.components.RunToolbar
+import com.example.run.presentation.maps.TrackerMap
 import com.example.run.presentation.run_active.component.RunDataCard
 import com.example.run.presentation.util.hasLocationPermission
 import com.example.run.presentation.util.hasPostNotification
@@ -127,6 +128,13 @@ private fun ActiveRunScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.surface)
         ) {
+            TrackerMap(
+                modifier = Modifier.fillMaxSize(),
+                isRunFinished = state.isRunFinished,
+                currentLocation = state.location,
+                locations = state.runData.locations,
+                onSnapshot = {}
+            )
             RunDataCard(
                 elapsedTime = state.elapsedTime,
                 runData = state.runData,

@@ -33,7 +33,7 @@ class AndroidLocationObserver(private val context: Context): LocationObserver {
             var isGpsEnabled = false
             var isNetworkEnabled = false
 
-            while (!isNetworkEnabled && !isNetworkEnabled){
+            while (!isGpsEnabled && !isNetworkEnabled){
                 isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 
                 isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
@@ -51,8 +51,11 @@ class AndroidLocationObserver(private val context: Context): LocationObserver {
                     context,
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) != PackageManager.PERMISSION_GRANTED
-            ) else {
+
+            ){
                 close()
+            } else {
+
                 client.lastLocation.addOnSuccessListener {
                     it?.let {location ->
                         trySend(location.toLocationWithAltitude())
