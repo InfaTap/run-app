@@ -24,6 +24,7 @@ import com.example.core.presentation.designsystem.RunIcon
 import com.example.core.presentation.designsystem.RunTheme
 import com.example.core.presentation.designsystem.StartIcon
 import com.example.core.presentation.designsystem.StopIcon
+import com.example.core.presentation.designsystem.components.RunActionButton
 import com.example.core.presentation.designsystem.components.RunActionOutlinedButton
 import com.example.core.presentation.designsystem.components.RunAppDialog
 import com.example.core.presentation.designsystem.components.RunFloatingActionButton
@@ -56,7 +57,7 @@ private fun ActiveRunScreen(
     val context = LocalContext.current
     val permissionLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.RequestMultiplePermissions()
-    ) {perms ->
+    ) { perms ->
         val hasCoarsePermission = perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         val hasFinePermission = perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
         val hasPostNotification = if (Build.VERSION.SDK_INT > 33) {
@@ -67,14 +68,18 @@ private fun ActiveRunScreen(
         val showLocationRational = activity.shouldShowLocationPermissionRational()
         val showPostNotification = activity.shouldShowPostNotificationPermissionRational()
 
-        onAction(ActiveRunAction.ShowNotificationPermissionInfo(
-            acceptedNotificationPermission = hasPostNotification,
-            acceptedNotificationRationale = showPostNotification
-        ))
-        onAction(ActiveRunAction.ShowLocationPermissionInfo(
-            acceptedLocationPermission = hasFinePermission && hasCoarsePermission,
-            showLocationRationale = showLocationRational
-        ))
+        onAction(
+            ActiveRunAction.ShowNotificationPermissionInfo(
+                acceptedNotificationPermission = hasPostNotification,
+                acceptedNotificationRationale = showPostNotification
+            )
+        )
+        onAction(
+            ActiveRunAction.ShowLocationPermissionInfo(
+                acceptedLocationPermission = hasFinePermission && hasCoarsePermission,
+                showLocationRationale = showLocationRational
+            )
+        )
 
 
     }
@@ -84,15 +89,19 @@ private fun ActiveRunScreen(
         val showLocationRational = activity.shouldShowLocationPermissionRational()
         val showNotificationRational = activity.shouldShowPostNotificationPermissionRational()
 
-        onAction(ActiveRunAction.ShowLocationPermissionInfo(
-            acceptedLocationPermission = context.hasLocationPermission(),
-            showLocationRationale = showLocationRational
-        ))
-        onAction(ActiveRunAction.ShowNotificationPermissionInfo(
-            acceptedNotificationPermission = context.hasPostNotification(),
-            acceptedNotificationRationale = showNotificationRational
+        onAction(
+            ActiveRunAction.ShowLocationPermissionInfo(
+                acceptedLocationPermission = context.hasLocationPermission(),
+                showLocationRationale = showLocationRational
+            )
+        )
+        onAction(
+            ActiveRunAction.ShowNotificationPermissionInfo(
+                acceptedNotificationPermission = context.hasPostNotification(),
+                acceptedNotificationRationale = showNotificationRational
 
-        ))
+            )
+        )
 
         if (!showNotificationRational && !showLocationRational) {
             permissionLauncher.requestRunAppPermission(context)
@@ -145,19 +154,50 @@ private fun ActiveRunScreen(
             )
         }
     }
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RunAppDialog(
+            title = "Running is paused",
+            onDismiss = {
+                onAction(ActiveRunAction.OnResumeClick)
+            },
+            description = "do you want to resume or finish the workout",
+            primaryButton = {
+                RunActionButton(
+                    text = "Resume",
+                    isLoading = false,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    onAction(ActiveRunAction.OnResumeClick)
+                }
+            }, secondaryButton = {
+                RunActionOutlinedButton(
+                    text = "Finish",
+                    enabled = true,
+                    loading = state.isSavingRun,
+                    modifier = Modifier.weight(1f),
+                    onClick = {
+                        onAction(ActiveRunAction.OnFinishRunClick)
+                    }
+                )
+            }
+        )
+    }
     if (state.showLocationRationale || state.showNotificationRationale) {
         RunAppDialog(
             title = "Running is paused",
             onDismiss = {},
-            description = when{
+            description = when {
                 state.showLocationRationale && state.showNotificationRationale -> {
                     "Need location"
                 }
+
                 state.showLocationRationale -> {
                     "Need location permission"
                 }
 
-                else -> {"In order to "}
+                else -> {
+                    "In order to "
+                }
             },
             primaryButton = {
                 RunActionOutlinedButton(
@@ -172,9 +212,10 @@ private fun ActiveRunScreen(
         )
     }
 }
+
 private fun ActivityResultLauncher<Array<String>>.requestRunAppPermission(
     context: Context
-){
+) {
 
     val hasLocationPermission = context.hasLocationPermission()
     val hasNotificationPermission = context.hasPostNotification()
@@ -193,9 +234,11 @@ private fun ActivityResultLauncher<Array<String>>.requestRunAppPermission(
         !hasNotificationPermission && !hasLocationPermission -> {
             launch(locationPermissions + notificationPermissions)
         }
+
         !hasNotificationPermission -> {
             launch(notificationPermissions)
         }
+
         !hasLocationPermission -> {
             launch(locationPermissions)
         }

@@ -38,9 +38,6 @@ class RunningTracker(
     val elapsedTime = _elapsedTime.asStateFlow()
 
 
-
-
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val currentLocation = isObserving.flatMapLatest { isObserving ->
         if (isObserving) {
@@ -57,6 +54,19 @@ class RunningTracker(
 
     init {
         isTracking
+            .onEach { isTracking ->
+                if (!isTracking) {
+                    val newList = buildList {
+                        addAll(runData.value.locations)
+                        add(emptyList())
+                    }.toList()
+                    _runData.update {
+                        it.copy(
+                            locations = newList
+                        )
+                    }
+                }
+            }
             .flatMapLatest { isTracking ->
                 if (isTracking){
                     Timer.timeAndEmit()
