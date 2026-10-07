@@ -118,7 +118,7 @@ class RunningTracker(
     }
 
     fun setIsTracking(isTracking: Boolean){
-        this.isTracking.value = isTracking
+        this._isTracking.value = isTracking
     }
 
     fun startObserving() {
