@@ -135,5 +135,12 @@ class RunningTracker(
             this.dropLast(1) + listOf(replacement)
         }
     }
+
+    fun finishRun() {
+        stopObserving()
+        setIsTracking(false)
+        _elapsedTime.value = Duration.ZERO
+        _runData.value = RunData()
+    }
 }
 
