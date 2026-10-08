@@ -4,13 +4,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.core.database.dao.RunDao
+import com.example.core.database.dao.RunPendingSyncDao
+import com.example.core.database.entity.DeletedRunSyncEntity
 import com.example.core.database.entity.RunEntity
+import com.example.core.database.entity.RunPendingSyncEntity
 
 @Database(
-    entities = [RunEntity::class],
+    entities = [RunEntity::class, DeletedRunSyncEntity::class, RunPendingSyncEntity::class],
     version = 1
 )
 abstract class RunDatabase: RoomDatabase() {
 
     abstract val runDao: RunDao
+    abstract val runPendingSyncDao: RunPendingSyncDao
 }
