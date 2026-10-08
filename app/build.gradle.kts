@@ -35,6 +35,7 @@ android {
 dependencies {
     // Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.ktor)
 
     // Compose
     implementation(platform(libs.androidx.compose.bom))
