@@ -1,6 +1,6 @@
 package com.example.run.presentation.run_overview.mappers
 
-import com.example.core.domain.location.Run
+import com.example.core.domain.run.Run
 import com.example.run.presentation.formatted
 import com.example.run.presentation.formattedMeters
 import com.example.run.presentation.run_overview.model.RunUi

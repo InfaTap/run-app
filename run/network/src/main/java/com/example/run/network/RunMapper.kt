@@ -1,0 +1,34 @@
+package com.example.run.network
+
+import com.example.core.domain.location.Location
+import com.example.core.domain.run.Run
+import java.time.Instant
+import java.time.ZoneId
+import kotlin.time.Duration.Companion.milliseconds
+
+fun RunDto.toRun(): Run {
+    return Run(
+        id = id,
+        duration = durationMillis.milliseconds,
+        dateTimeUtc = Instant.parse(dateTimeUtc).atZone(ZoneId.of("UTC")),
+        distanceInMeters = distanceInMeters,
+        location = Location(lat, long),
+        maxSpeedKm = maxSpeedKmh,
+        totalElevationInMeters = totalElevationMeters,
+        mapPictureUrl = mapPictureUrl
+    )
+}
+
+fun Run.toCreateRunRequest(): CreateRunRequest {
+    return CreateRunRequest(
+        id = id!!,
+        durationMillis = duration.inWholeMilliseconds,
+        lat = location.lat,
+        long = location.long,
+        maxSpeedKmh = maxSpeedKm,
+        avgSpeedKmh = avgSpeedKmh,
+        totalElevationMeters = totalElevationInMeters,
+        epochMillis = dateTimeUtc.toEpochSecond() * 1000L,
+        distanceMeters = distanceInMeters
+    )
+}

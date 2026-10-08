@@ -3,6 +3,7 @@ package com.example.runapp
 import android.app.Application
 import com.example.auth.presentation.di.authViewModelModule
 import com.example.core.data.di.coreDataModule
+import com.example.core.database.di.databaseModule
 import com.example.data.di.authDataModule
 import com.example.run.location.di.locationModule
 import com.example.run.presentation.di.runPresentationModule
@@ -32,7 +33,8 @@ class RunApp: Application() {
                 authViewModelModule,
                 coreDataModule,
                 runPresentationModule,
-                locationModule
+                locationModule,
+                databaseModule
             )
         }
     }

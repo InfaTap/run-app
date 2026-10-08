@@ -41,9 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.SubcomposeAsyncImage
 import com.example.core.domain.location.Location
-import com.example.core.domain.location.Run
+import com.example.core.domain.run.Run
 import com.example.core.presentation.designsystem.CalendarIcon
-import com.example.core.presentation.designsystem.RunIcon
 import com.example.core.presentation.designsystem.RunOutlinedIcon
 import com.example.core.presentation.designsystem.RunTheme
 import com.example.run.presentation.run_overview.mappers.toRunUi

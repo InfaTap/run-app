@@ -1,5 +1,6 @@
-package com.example.core.domain.location
+package com.example.core.domain.run
 
+import com.example.core.domain.location.Location
 import java.time.ZonedDateTime
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
