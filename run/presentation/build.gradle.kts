@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.runapp.android.library.feature.ui)
+    alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
 android {

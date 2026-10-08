@@ -9,6 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.domain.LocationDataCalculator
 import com.example.core.domain.location.Location
 import com.example.core.domain.run.Run
+import com.example.core.domain.run.RunRepository
+import com.example.core.domain.util.Result
+import com.example.core.presentation.ui.asUiText
 import com.example.run.domain.RunningTracker
 import com.example.run.presentation.run_active.service.ActiveRunService
 import kotlinx.coroutines.channels.Channel
@@ -23,7 +26,7 @@ import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class ActiveRunViewModel(private val runningTracker: RunningTracker) : ViewModel() {
+class ActiveRunViewModel(private val runningTracker: RunningTracker, private val runRepository: RunRepository) : ViewModel() {
 
 
     private val eventChannel = Channel<ActiveRunEvent>()
@@ -154,9 +157,19 @@ class ActiveRunViewModel(private val runningTracker: RunningTracker) : ViewModel
                 totalElevationInMeters = LocationDataCalculator.getTotalElevationInMeters(locations),
                 mapPictureUrl = null,
             )
+            runningTracker.finishRun()
+
+            when (val result = runRepository.upsertRun(run,mapPictureByteArray)){
+                is Result.Error -> {
+                    eventChannel.send(ActiveRunEvent.Error(result.error.asUiText()))
+                }
+                is Result.Success -> {
+                    eventChannel.send(ActiveRunEvent.RunSaved)
+                }
+            }
         }
 
-        runningTracker.finishRun()
+        state = state.copy(isSavingRun = false)
     }
 
     override fun onCleared() {
