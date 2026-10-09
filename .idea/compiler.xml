@@ -13,6 +13,7 @@
       <module name="Run_App.run.location" target="21" />
       <module name="Run_App.run.network" target="21" />
       <module name="Run_App.run.presentation" target="21" />
+      <module name="RunApp.analytics.analytics-feature" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>

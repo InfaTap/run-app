@@ -30,6 +30,7 @@ android {
     buildFeatures {
         compose = true
     }
+    dynamicFeatures += setOf(":analytics:analytics_feature")
 }
 
 dependencies {
