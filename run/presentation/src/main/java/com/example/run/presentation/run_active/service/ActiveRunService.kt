@@ -21,6 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.distinctUntilChangedBy
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
 import kotlin.getValue
@@ -37,6 +38,8 @@ class ActiveRunService : Service() {
         NotificationCompat.Builder(applicationContext, CHANNEL_ID)
             .setSmallIcon(R.drawable.logo)
             .setContentTitle("Active Run")
+            .setOnlyAlertOnce(true)
+            .setOngoing(true)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -90,7 +93,9 @@ class ActiveRunService : Service() {
     }
 
     private fun updateNotification() {
-        runningTracker.elapsedTime.onEach { elapsedTime ->
+        runningTracker.elapsedTime
+            .distinctUntilChangedBy { it.inWholeSeconds }
+            .onEach { elapsedTime ->
             val notification = baseNotification
                 .setContentText(elapsedTime.formatted())
                 .build()

@@ -100,6 +100,13 @@ private fun NavGraphBuilder.runGraph(
     ) {
         composable("run_overview") {
             RunOverViewScreenRoot(
+                onLogoutClick = {
+                    navHostController.navigate("auth"){
+                        popUpTo("run"){
+                            inclusive = true
+                        }
+                    }
+                },
                 onRunClick = {
                     navHostController.navigate("active_run")
                 }
@@ -126,7 +133,7 @@ private fun NavGraphBuilder.runGraph(
                             )
                         )
                     } else {
-                        context.stopService(
+                        context.startService(
                             ActiveRunService.createStopIntent(
                                 context = context
                             )

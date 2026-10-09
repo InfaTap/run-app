@@ -10,7 +10,7 @@ data class RunDto(
     val id: String?,
     val durationMillis: Long,
     val dateTimeUtc: String,
-    val distanceInMeters: Int,
+    val distanceMeters: Int,
     val lat: Double,
     val long: Double,
     val maxSpeedKmh: Double,

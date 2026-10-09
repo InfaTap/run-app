@@ -256,7 +256,7 @@ private fun MapImage(imageUrl: String?, modifier: Modifier = Modifier) {
 
                 ) {
                 Text(
-                    "Could not load colors",
+                    "Could not load map image",
                     color = MaterialTheme.colorScheme.error
                 )
             }

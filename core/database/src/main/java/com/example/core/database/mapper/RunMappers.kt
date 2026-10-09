@@ -32,6 +32,6 @@ fun Run.toEntity(): RunEntity{
         maxSpeedKmh = maxSpeedKm,
         totalElevationInMeters = totalElevationInMeters,
         mapPictureUrl = mapPictureUrl,
-        id = ObjectId().toHexString()
+        id = id ?: ObjectId().toHexString()
     )
 }

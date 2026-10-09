@@ -77,7 +77,13 @@ suspend inline fun <reified T> safeCall(execute: () -> HttpResponse): Result<T, 
 
 suspend inline fun<reified T> responseToResult(response: HttpResponse): Result<T, DataError.Network>{
     return when (response.status.value) {
-        in 200..299 -> Result.Success(response.body<T>())
+        in 200..299 -> try {
+            Result.Success(response.body<T>())
+        } catch (e: Exception) {
+            if (e is CancellationException) throw e
+            e.printStackTrace()
+            Result.Error(DataError.Network.SERIALIZATION_ERROR)
+        }
         401 -> Result.Error(DataError.Network.UNAUTHORIZED)
         409 -> Result.Error(DataError.Network.CONFLICT)
         408 -> Result.Error(DataError.Network.REQUEST_TIMEOUT)

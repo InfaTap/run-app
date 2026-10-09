@@ -91,7 +91,7 @@ private fun ActiveRunScreen(
     ) { perms ->
         val hasCoarsePermission = perms[Manifest.permission.ACCESS_COARSE_LOCATION] == true
         val hasFinePermission = perms[Manifest.permission.ACCESS_FINE_LOCATION] == true
-        val hasPostNotification = if (Build.VERSION.SDK_INT > 33) {
+        val hasPostNotification = if (Build.VERSION.SDK_INT >= 33) {
             perms[Manifest.permission.POST_NOTIFICATIONS] == true
         } else true
 
@@ -139,7 +139,9 @@ private fun ActiveRunScreen(
         }
     }
     LaunchedEffect(state.isRunFinished) {
-        onServiceToggle(false)
+        if (state.isRunFinished) {
+            onServiceToggle(false)
+        }
     }
     LaunchedEffect(state.shouldTrack) {
         if (context.hasLocationPermission() && state.shouldTrack && !ActiveRunService.isServiceActive) {
