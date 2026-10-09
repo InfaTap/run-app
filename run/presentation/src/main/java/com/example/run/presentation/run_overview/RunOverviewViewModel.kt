@@ -10,13 +10,27 @@ import com.example.run.presentation.run_overview.mappers.toRunUi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.minutes
 
-class RunOverviewViewModel(private val runRepository: RunRepository) : ViewModel() {
+class RunOverviewViewModel(
+    private val runRepository: RunRepository,
+    private val syncRunScheduler: SyncRunScheduler
+) : ViewModel() {
 
     var state by mutableStateOf(RunOverviewState())
         private set
 
     init {
+
+        viewModelScope.launch {
+            syncRunScheduler.scheduleSync(
+                type = SyncRunScheduler.SyncType.FetchRuns(
+                    30.minutes
+                )
+            )
+        }
+
+
         runRepository.getRuns().onEach { runs ->
             val runUi = runs.map {
                 it.toRunUi()
@@ -31,11 +45,12 @@ class RunOverviewViewModel(private val runRepository: RunRepository) : ViewModel
     }
 
     fun onAction(action: RunOverviewAction) {
-        when(action) {
+        when (action) {
             RunOverviewAction.OnAnalyticsClick -> Unit
             is RunOverviewAction.OnDeleteClick -> {
-                viewModelScope.launch {  runRepository.deleteRun(id = action.run.id)}
+                viewModelScope.launch { runRepository.deleteRun(id = action.run.id) }
             }
+
             RunOverviewAction.OnRunClick -> Unit
             RunOverviewAction.OnRunLogoutClick -> Unit
         }
