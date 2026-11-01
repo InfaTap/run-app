@@ -1,23 +1,86 @@
 package com.example.runapp
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.core.presentation.designsystem.RunTheme
+import com.google.android.play.core.ktx.status
+import com.google.android.play.core.splitinstall.SplitInstallManager
+import com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+import com.google.android.play.core.splitinstall.SplitInstallRequest
+import com.google.android.play.core.splitinstall.SplitInstallSessionState
+import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
 
     private val vm by viewModel<MainViewModel>()
+    private lateinit var splitInstallManager: SplitInstallManager
+    private val splitInstallListener = SplitInstallStateUpdatedListener { state ->
+        when (state.status()) {
+            SplitInstallSessionStatus.INSTALLED -> {
+                vm.setInstallDialogVisibility(false)
+                Toast.makeText(applicationContext, "Installed", Toast.LENGTH_LONG).show()
+
+            }
+
+            SplitInstallSessionStatus.DOWNLOADING -> {
+                vm.setInstallDialogVisibility(true)
+
+            }
+
+            SplitInstallSessionStatus.REQUIRES_USER_CONFIRMATION -> {
+                splitInstallManager.startConfirmationDialogForResult(state, this, 0)
+            }
+
+            SplitInstallSessionStatus.INSTALLING -> {
+                vm.setInstallDialogVisibility(true)
+
+            }
+
+            SplitInstallSessionStatus.FAILED -> {
+                vm.setInstallDialogVisibility(false)
+                Toast.makeText(applicationContext, "Installation failed", Toast.LENGTH_LONG).show()
+            }
+
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        splitInstallManager.registerListener(splitInstallListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        splitInstallManager.unregisterListener(splitInstallListener)
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,36 +89,69 @@ class MainActivity : ComponentActivity() {
                 vm.state.isCheckingAuth
             }
         }
-
+        splitInstallManager = SplitInstallManagerFactory.create(applicationContext)
         setContent {
             RunTheme {
-                Surface(modifier = Modifier.fillMaxSize(),
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    if (!vm.state.isCheckingAuth){
+                    if (!vm.state.isCheckingAuth) {
                         val navHostController = rememberNavController()
-                        NavigationRoot(navHostController = navHostController,
-                            isLoggedIn = vm.state.isLoggedIn)
+                        NavigationRoot(
+                            navHostController = navHostController,
+                            isLoggedIn = vm.state.isLoggedIn,
+                            onAnalyticsClick = {
+                                installOrStartAnalyticsFeature()
+                            })
+                    }
+
+                    if (vm.state.showAnalyticsInstallDialog) {
+                        Dialog(
+                            onDismissRequest = {},
+
+                            ) {
+                            Column(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(15.dp))
+                                    .background(
+                                        MaterialTheme.colorScheme.surface
+                                    )
+                                    .padding(16.dp),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                CircularProgressIndicator()
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text("Installing Module")
+                            }
+                        }
                     }
 
                 }
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    fun installOrStartAnalyticsFeature() {
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RunTheme {
-        Greeting("Android")
+        if (splitInstallManager.installedModules.contains("analytics_feature")) {
+            Intent()
+                .setClassName(
+                    packageName,
+                    "com.example.analytics.analytics_feature.AnalyticsActivity"
+                ).also(::startActivity)
+            return
+        }
+        val splitInstallRequest = SplitInstallRequest.newBuilder()
+            .addModule("analytics_module")
+            .build()
+
+        splitInstallManager.startInstall(splitInstallRequest)
+            .addOnFailureListener {
+                it.printStackTrace()
+                Toast.makeText(applicationContext, "Something Went Wrong", Toast.LENGTH_LONG).show()
+            }
+
     }
 }

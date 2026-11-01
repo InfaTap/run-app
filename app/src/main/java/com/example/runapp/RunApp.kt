@@ -1,6 +1,7 @@
 package com.example.runapp
 
 import android.app.Application
+import android.content.Context
 import com.example.auth.presentation.di.authViewModelModule
 import com.example.core.data.di.coreDataModule
 import com.example.core.database.di.databaseModule
@@ -10,6 +11,7 @@ import com.example.run.location.di.locationModule
 import com.example.run.network.di.networkModule
 import com.example.run.presentation.di.runPresentationModule
 import com.example.runapp.di.appModule
+import com.google.android.play.core.splitcompat.SplitCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import org.koin.android.ext.koin.androidContext
@@ -43,5 +45,10 @@ class RunApp: Application() {
                 runDataModule
             )
         }
+    }
+
+    override fun attachBaseContext(base: Context?) {
+        super.attachBaseContext(base)
+        SplitCompat.install(this)
     }
 }

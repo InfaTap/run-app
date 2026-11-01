@@ -23,4 +23,10 @@ class MainViewModel(private val sessionStorage: SessionStorage) : ViewModel() {
 
         }
     }
+
+    fun setInstallDialogVisibility(visibility: Boolean){
+        state = state.copy(
+            showAnalyticsInstallDialog = visibility
+        )
+    }
 }

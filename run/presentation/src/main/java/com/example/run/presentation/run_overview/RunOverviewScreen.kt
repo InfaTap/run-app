@@ -12,6 +12,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -33,6 +37,7 @@ import org.koin.androidx.compose.koinViewModel
 fun RunOverViewScreenRoot(
     onRunClick: () -> Unit,
     onLogoutClick: () -> Unit,
+    onAnalyticsClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 ) {
     /*These two lines do the same thing:
@@ -40,11 +45,13 @@ fun RunOverViewScreenRoot(
     RunOverViewScreen(onAction = viewModel::onAction)
     RunOverViewScreen(onAction = { action -> viewModel.onAction(action) })*/
 
+    var testing by remember ( {mutableStateOf(false) })
+
     RunOverViewScreen(
         state = viewModel.state,
         onAction = { action ->
             when (action) {
-
+                RunOverviewAction.OnAnalyticsClick -> onAnalyticsClick()
                 RunOverviewAction.OnRunClick -> onRunClick()
                 RunOverviewAction.OnRunLogoutClick -> onLogoutClick()
                 else -> {}
