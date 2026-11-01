@@ -2,6 +2,9 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel target="11">
+      <module name="build-logic.convention" target="21" />
+      <module name="build-logic.convention.main" target="21" />
+      <module name="build-logic.convention.test" target="21" />
       <module name="Run_App.app" target="21" />
       <module name="Run_App.auth.data" target="21" />
       <module name="Run_App.auth.presentation" target="21" />
@@ -14,6 +17,16 @@
       <module name="Run_App.run.network" target="21" />
       <module name="Run_App.run.presentation" target="21" />
       <module name="RunApp.analytics.analytics-feature" target="21" />
+      <module name="RunApp.analytics.analytics_feature" target="21" />
+      <module name="RunApp.analytics.data" target="21" />
+      <module name="RunApp.analytics.presentation" target="21" />
+      <module name="RunApp.auth.presentation" target="21" />
+      <module name="RunApp.core.database" target="21" />
+      <module name="RunApp.core.presentation.designsystem" target="21" />
+      <module name="RunApp.core.presentation.ui" target="21" />
+      <module name="RunApp.run.data" target="21" />
+      <module name="RunApp.run.location" target="21" />
+      <module name="RunApp.run.presentation" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
